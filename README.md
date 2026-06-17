@@ -14,9 +14,9 @@ The plugin only contains the MCP *registration* — it points at a **running**
 
 ## Prerequisites
 
-A bearer token (or X-Api-Key) for the `ecom-owner` MCP server. The plugin defaults to
-the hosted server at `https://mcp.devreactor.com/`; point `ECOM_OWNER_URL` elsewhere
-(e.g. `http://localhost:5099`) for local development.
+A bearer token for the `ecom-owner` MCP server. The plugin points at the hosted server
+`https://mcp.devreactor.com/` (set in `plugins/ecom-owner/.mcp.json`); edit that `url`
+to target a different server (e.g. `http://localhost:5099`) for local development.
 
 ## Install
 
@@ -32,14 +32,15 @@ The plugin reads these from your environment — no secrets are stored in the re
 | Variable | Required | Default | Meaning |
 |----------|----------|---------|---------|
 | `ECOM_OWNER_TOKEN` | yes | — | Bearer token sent as `Authorization: Bearer …` |
-| `ECOM_OWNER_URL` | no | `https://mcp.devreactor.com/` | Server base URL |
 
 Set the token in your OS/user environment before launching Claude Code, e.g. (PowerShell):
 
 ```powershell
 setx ECOM_OWNER_TOKEN "<bearer-token>"
-# ECOM_OWNER_URL is optional — defaults to https://mcp.devreactor.com/
 ```
+
+The server URL is hard-coded in `plugins/ecom-owner/.mcp.json` (`https://mcp.devreactor.com/`) —
+edit it there to point elsewhere.
 
 ### Minting a long-lived bearer token
 
