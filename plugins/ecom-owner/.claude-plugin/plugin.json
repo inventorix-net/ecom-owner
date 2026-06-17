@@ -1,0 +1,8 @@
+{
+  "name": "ecom-owner",
+  "description": "Read-only e-commerce data access for the business owner via the ecom-owner MCP — curated analytics tools plus ad-hoc read-only SQL.",
+  "author": {
+    "name": "Inventorix"
+  },
+  "repository": "https://github.com/inventorix-net/ecom-owner"
+}

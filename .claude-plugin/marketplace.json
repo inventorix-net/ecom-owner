@@ -1,0 +1,13 @@
+{
+  "name": "inventorix",
+  "owner": {
+    "name": "Inventorix"
+  },
+  "plugins": [
+    {
+      "name": "ecom-owner",
+      "source": "./plugins/ecom-owner",
+      "description": "Read-only e-commerce data access via the ecom-owner MCP (curated analytics + ad-hoc read-only SQL)."
+    }
+  ]
+}

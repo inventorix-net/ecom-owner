@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "ecom-owner": {
+      "type": "streamable-http",
+      "url": "${ECOM_OWNER_URL:-https://mcp.devreactor.com/}",
+      "headers": {
+        "Authorization": "Bearer ${ECOM_OWNER_TOKEN}"
+      }
+    }
+  }
+}
