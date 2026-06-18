@@ -14,9 +14,16 @@ The plugin only contains the MCP *registration* — it points at a **running**
 
 ## Prerequisites
 
-A bearer token for the `ecom-owner` MCP server. The plugin points at the hosted server
-`https://mcp.devreactor.com/` (set in `plugins/ecom-owner/.mcp.json`); edit that `url`
-to target a different server (e.g. `http://localhost:5099`) for local development.
+None to manage — the `ecom-owner` server uses **interactive OAuth**. On first use the MCP
+client opens a browser, you sign in with an owner account, and access/refresh tokens are
+issued and rotated for you (no static token to mint or store). The plugin points at the
+hosted server `https://mcp.devreactor.com/` (set in `plugins/ecom-owner/.mcp.json`); edit
+that `url` to target a different server (e.g. `http://localhost:5099`) for local development.
+
+> **Requires an OAuth-capable server.** This connector config (no `Authorization` header)
+> only works once the interactive-OAuth build is deployed to the target server — it must
+> serve `/.well-known/oauth-protected-resource` and challenge for OAuth. Against an older
+> token-only build it cannot authenticate; re-add a header (see *Legacy static credential*).
 
 ## Install
 
@@ -25,27 +32,19 @@ to target a different server (e.g. `http://localhost:5099`) for local developmen
 /plugin install ecom-owner@inventorix
 ```
 
-## Configure (environment variables)
+## Configure
 
-The plugin reads these from your environment — no secrets are stored in the repo:
+With interactive OAuth there is **no token to configure** — sign-in happens in the browser
+on first use. The only setting is the server `url` in `plugins/ecom-owner/.mcp.json`
+(`https://mcp.devreactor.com/`); edit it to point elsewhere (e.g. `http://localhost:5099`).
 
-| Variable | Required | Default | Meaning |
-|----------|----------|---------|---------|
-| `ECOM_OWNER_TOKEN` | yes | — | Bearer token sent as `Authorization: Bearer …` |
+### Legacy static credential (optional)
 
-Set the token in your OS/user environment before launching Claude Code, e.g. (PowerShell):
-
-```powershell
-setx ECOM_OWNER_TOKEN "<bearer-token>"
-```
-
-The server URL is hard-coded in `plugins/ecom-owner/.mcp.json` (`https://mcp.devreactor.com/`) —
-edit it there to point elsewhere.
-
-### Minting a long-lived bearer token
-
-The server issues short-lived tokens by default. For a static token that lives in
-`ECOM_OWNER_TOKEN`, mint one against a server configured with a long lifetime:
+The server still accepts a static credential as a fallback. To use it instead of OAuth, add a
+header back to `plugins/ecom-owner/.mcp.json` — `"Authorization": "Bearer ${ECOM_OWNER_TOKEN}"`
+(or `"X-Api-Key": "${ECOM_OWNER_API_KEY}"`) — and set that variable in your environment. To
+mint a long-lived bearer token, the server issues short-lived tokens by default, so mint one
+against a server configured with a long lifetime:
 
 1. On the server, set a long token lifetime (e.g. one year) and a client:
    `OAuth__AccessTokenLifetimeMinutes=525600`,
@@ -76,7 +75,7 @@ The server issues short-lived tokens by default. For a static token that lives i
 .claude-plugin/marketplace.json     # this repo as a marketplace
 plugins/ecom-owner/
   .claude-plugin/plugin.json        # plugin manifest
-  .mcp.json                         # ecom-owner MCP server (bearer via env)
+  .mcp.json                         # ecom-owner MCP server (interactive OAuth — browser login)
   skills/run-sql-ecomowner/SKILL.md # read-only SQL workflow + guard rules
   commands/ecom-owner.md            # /ecom-owner command
 ```
