@@ -1,5 +1,6 @@
 {
   "name": "ecom-owner",
+  "version": "1.0.0",
   "description": "Read-only e-commerce data access for the business owner via the ecom-owner MCP — curated analytics tools plus ad-hoc read-only SQL.",
   "author": {
     "name": "Inventorix"

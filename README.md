@@ -91,3 +91,24 @@ claude --plugin-dir ./plugins/ecom-owner
 
 Then confirm `/ecom-owner` is listed, the skill triggers on a data question, and the
 MCP tools resolve (requires the server running and `ECOM_OWNER_TOKEN` set).
+
+## Releasing updates
+
+Installed copies (Claude Code CLI **and** the Claude app) are served from this
+**GitHub repo**, not from a local checkout — edits only reach users after they are
+**pushed** and the client pulls a newer version. Update detection is by version:
+`plugins/ecom-owner/.claude-plugin/plugin.json` `version` first, else the git commit SHA.
+
+Release flow for every change:
+
+1. Edit the plugin files (`.mcp.json`, `skills/…`, `commands/…`).
+2. **Bump `version`** in `plugins/ecom-owner/.claude-plugin/plugin.json` (semver).
+   Without a bump, clients that pin the version may not see an update.
+3. `git commit` and **`git push origin main`**.
+4. Pull the update on the client:
+   - **Claude app** → Customize → *Ecom owner* → the **Update** button activates → click it.
+   - **Claude Code CLI** → `/plugin marketplace update inventorix` (then `/mcp` reconnect
+     if `.mcp.json` changed).
+
+> The **Update** button stays greyed out when the installed version already matches
+> `origin/main` — i.e. there is nothing newer to pull. Push a version-bumped commit first.
