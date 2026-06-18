@@ -1,11 +1,14 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "inventorix",
+  "version": "1.0.0",
   "owner": {
     "name": "Inventorix"
   },
   "plugins": [
     {
       "name": "ecom-owner",
+      "version": "1.1.0",
       "source": "./plugins/ecom-owner",
       "description": "Read-only e-commerce data access via the ecom-owner MCP (curated analytics + ad-hoc read-only SQL)."
     }
